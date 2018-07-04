@@ -1,8 +1,10 @@
 var extractValues = require("extract-values");
 var scraperjs = require('scraperjs');
 
-module.exports = function(name) {		
-	scraperjs.StaticScraper.create('https://www.pensador.com/' + name.toLowerCase().replace(' ', '_'))
+module.exports = function(name) {	
+    name = name.toLowerCase().replace(' ', '_');
+	
+	scraperjs.StaticScraper.create('https://www.pensador.com/' + name)
 		.scrape(function($) {
 			return $(".autorTotal strong, .total").map(function() {
 				var text = $(this).text();
@@ -12,7 +14,13 @@ module.exports = function(name) {
 					condition = 'de {quantity} frases';
 				}
 				
-				var numberPages = parseInt(extractValues(text, condition).quantity);							
+				var numberOfQuotes = parseInt(extractValues(text, condition).quantity); 
+				var numberPages = parseInt(numberOfQuotes/20);	
+				
+				if(numberOfQuotes % 20 !== 0){
+					numberPages++;
+				}
+								
 				return numberPages;
 			}).get();
 		})
