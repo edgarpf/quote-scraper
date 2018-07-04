@@ -1,0 +1,27 @@
+{
+  "name": "quote-scraper",
+  "version": "1.0.0",
+  "description": "A npm package to get famous quotes",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edgarpf/quote-scraper.git"
+  },
+  "keywords": [
+    "quote",
+    "scraper"
+  ],
+  "author": "edgarpf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edgarpf/quote-scraper/issues"
+  },
+  "homepage": "https://github.com/edgarpf/quote-scraper#readme",
+  "dependencies": {
+    "extract-values": "^0.1.2",
+    "scraperjs": "^1.2.0"
+  }
+}
