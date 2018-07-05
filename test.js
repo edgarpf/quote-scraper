@@ -1,6 +1,6 @@
 var assert = require('assert');
 var quoteScraper = require('./');
 
-quoteScraper('clarice_lispector');
-quoteScraper('Paulo Coelho');
-quoteScraper('Pitagoras');
+console.log(quoteScraper('clarice_lispector')[0]);
+//quoteScraper('Paulo Coelho');
+//console.log(quoteScraper('Pitagoras'));

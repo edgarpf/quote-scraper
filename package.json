@@ -22,6 +22,7 @@
   "homepage": "https://github.com/edgarpf/quote-scraper#readme",
   "dependencies": {
     "extract-values": "^0.1.2",
-    "scraperjs": "^1.2.0"
+    "scraperjs": "^1.2.0",
+    "wait-for-stuff": "^1.4.0"
   }
 }

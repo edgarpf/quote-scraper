@@ -1,13 +1,17 @@
 var extractValues = require("extract-values");
 var scraperjs = require('scraperjs');
+var wait = require('wait-for-stuff');
+var URL_SITE_QUOTE_PT_BR = 'https://www.pensador.com/'
+var isComplete = {'isReadComplete' : false, 'isAllComplete' : false};
 
 module.exports = (name) => {	
     name = name.toLowerCase().replace(' ', '_');
+	var sentences = [];
 	
-	scraperjs.StaticScraper.create('https://www.pensador.com/' + name)
+	scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name)
 		.scrape(($) => {
-			return $(".autorTotal strong, .total").map(function() {
-				console.log("name = "+name);
+			$(".autorTotal strong, .total").map(function() {
+				//console.log("name = "+name);
 				
 				var text = $(this).text();
 				var condition = 'de {quantity}';
@@ -15,7 +19,7 @@ module.exports = (name) => {
 								
 				var numberOfQuotes = parseInt(extractValues(text, condition).quantity); 
 				
-				console.log("numberOfQuotes = "+ numberOfQuotes);
+				//console.log("numberOfQuotes = "+ numberOfQuotes);
 				
 				var numberOfPages = parseInt(numberOfQuotes/numberOfSentencesPerPage);	
 				
@@ -23,17 +27,20 @@ module.exports = (name) => {
 					numberOfPages++;
 				}
 								
-				console.log("numberOfPages = "  + numberOfPages);
+				//console.log("numberOfPages = " + numberOfPages);
                 
-				var sentences = [];
 		        $(".frase").map(function(){sentences.push($(this).text());});
-				
-					
-				
-				return sentences;
-			}).get();
-		})
-		.then((sentences) => {
-			sentences.map(function(value){console.log("\n"+value+"\n")});
-		})
+								
+				for(var i=2;i<=numberOfPages;i++){
+					scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR  + name + '/' + i)
+					.scrape(function ($) {
+						$(".frase").map(function(){sentences.push($(this).text());});												
+						isComplete.isReadComplete = sentences.length > (numberOfPages-1)*numberOfSentencesPerPage;																								
+					});
+				}	
+			});
+		});
+		
+		wait.for.value(isComplete, 'isReadComplete' ,true);
+		return sentences;
 }
