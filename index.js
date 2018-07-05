@@ -1,11 +1,11 @@
 var extractValues = require("extract-values");
 var scraperjs = require('scraperjs');
 
-module.exports = function(name) {	
+module.exports = (name) => {	
     name = name.toLowerCase().replace(' ', '_');
 	
 	scraperjs.StaticScraper.create('https://www.pensador.com/' + name)
-		.scrape(function($) {
+		.scrape(($) => {
 			return $(".autorTotal strong, .total").map(function() {
 				console.log("name = "+name);
 				
@@ -19,15 +19,21 @@ module.exports = function(name) {
 				
 				var numberOfPages = parseInt(numberOfQuotes/numberOfSentencesPerPage);	
 				
-				if(numberOfQuotes % numberOfSentencesPerPage!== 0){
+				if(numberOfQuotes % numberOfSentencesPerPage !== 0){
 					numberOfPages++;
 				}
 								
-				console.log("numberOfPages = "  + numberOfPages);				
-				return numberOfPages;
+				console.log("numberOfPages = "  + numberOfPages);
+                
+				var sentences = [];
+		        $(".frase").map(function(){sentences.push($(this).text());});
+				
+					
+				
+				return sentences;
 			}).get();
 		})
-		.then(function(news) {
-			console.log("news = "+news[0]);
+		.then((sentences) => {
+			sentences.map(function(value){console.log("\n"+value+"\n")});
 		})
 }
