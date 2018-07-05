@@ -7,24 +7,27 @@ module.exports = function(name) {
 	scraperjs.StaticScraper.create('https://www.pensador.com/' + name)
 		.scrape(function($) {
 			return $(".autorTotal strong, .total").map(function() {
+				console.log("name = "+name);
+				
 				var text = $(this).text();
 				var condition = 'de {quantity}';
-				
-				if(text.includes("frases")){
-					condition = 'de {quantity} frases';
-				}
-				
+				var numberOfSentencesPerPage = 20;
+								
 				var numberOfQuotes = parseInt(extractValues(text, condition).quantity); 
-				var numberPages = parseInt(numberOfQuotes/20);	
 				
-				if(numberOfQuotes % 20 !== 0){
-					numberPages++;
+				console.log("numberOfQuotes = "+ numberOfQuotes);
+				
+				var numberOfPages = parseInt(numberOfQuotes/numberOfSentencesPerPage);	
+				
+				if(numberOfQuotes % numberOfSentencesPerPage!== 0){
+					numberOfPages++;
 				}
 								
-				return numberPages;
+				console.log("numberOfPages = "  + numberOfPages);				
+				return numberOfPages;
 			}).get();
 		})
 		.then(function(news) {
-			console.log(news[0]);
+			console.log("news = "+news[0]);
 		})
 }
