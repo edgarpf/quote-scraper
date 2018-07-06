@@ -18,9 +18,9 @@ module.exports = (name, language = 'en', numberOfPages = 1) => {
         readEnglishQuotes(name);
     } else if (language === 'pt_br') {
         readBrazilianPortugueseQuotes(name, numberOfPages);
-    } else{
-		isComplete.isReadComplete = true;
-	}
+    } else {
+        isComplete.isReadComplete = true;
+    }
 
     wait.for.value(isComplete, 'isReadComplete', true);
     isComplete.isReadComplete = false;
@@ -30,11 +30,10 @@ module.exports = (name, language = 'en', numberOfPages = 1) => {
 function readEnglishQuotes(name) {
     scraperjs.StaticScraper.create(URL_SITE_ENGLISH_QUOTE + name)
         .scrape(function($) {
-			$(".thought-bubble").map(function() 
-			{					
-				isComplete.isReadComplete = true;                				
-			});
-			
+            $(".thought-bubble").map(function() {
+                isComplete.isReadComplete = true;
+            });
+
             return $(".b-qt").map(function() {
                 sentences.push($(this).text());
                 isComplete.isReadComplete = true;
@@ -45,16 +44,11 @@ function readEnglishQuotes(name) {
 function readBrazilianPortugueseQuotes(name, numberOfPages) {
     scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name)
         .scrape(($) => {
-			
-			$(".top h1").map(function() 
-			{
-					if($(this).text().includes('404')){
-						isComplete.isReadComplete = true;
-					}
-			});
-			
+
+            checkFor404($);
+
             $(".autorTotal strong, .total").map(function() {
-                var text = $(this).text();				
+                var text = $(this).text();
                 var condition = 'de {quantity}';
                 var numberOfSentencesPerPage = 20;
 
@@ -86,4 +80,12 @@ function readBrazilianPortugueseQuotes(name, numberOfPages) {
                 }
             });
         });
+}
+
+function checkFor404($) {
+    $(".top h1").map(function() {
+        if ($(this).text().includes('404')) {
+            isComplete.isReadComplete = true;
+        }
+    });
 }
