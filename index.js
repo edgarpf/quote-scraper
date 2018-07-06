@@ -68,18 +68,21 @@ function readBrazilianPortugueseQuotes(name, numberOfPages) {
                 });
 
                 isComplete.isReadComplete = numberOfPages === 1;
-
-                for (var i = 2; i <= numberOfPages; i++) {
-                    scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name + '/' + i)
-                        .scrape(function($) {
-                            $(".frase").map(function() {
-                                sentences.push($(this).text());
-                            });
-                            isComplete.isReadComplete = sentences.length > (numberOfPages - 1) * numberOfSentencesPerPage;
-                        });
-                }
+				readOtherPages(name, numberOfPages, numberOfSentencesPerPage);                
             });
         });
+}
+
+function readOtherPages(name, numberOfPages, numberOfSentencesPerPage){
+	for (var i = 2; i <= numberOfPages; i++) {
+		scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name + '/' + i)
+			.scrape(function($) {
+				$(".frase").map(function() {
+					sentences.push($(this).text());
+				});
+				isComplete.isReadComplete = sentences.length > (numberOfPages - 1) * numberOfSentencesPerPage;
+			});
+	}
 }
 
 function checkFor404($) {
