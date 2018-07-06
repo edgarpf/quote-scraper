@@ -57,16 +57,3 @@ module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {
 	wait.for.value(isComplete, 'isReadComplete' ,true);
 	return sentences;
 }
-
-function addElements(data){
-	var sentences = [];
-	if(data.quotes == null){
-		return sentences;
-	}
-	
-	for(var i=0;i<data.quotes.length;i++){
-		sentences.push(data.quotes[i].quote);
-	}
-	
-	return sentences;
-}
