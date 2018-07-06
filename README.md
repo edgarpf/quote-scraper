@@ -11,18 +11,19 @@ npm i -S quote-scraper
 var quoteScraper = require('quote-scraper');
 
 // quote-scraper gives you an array with famous quote from someone. 
-// Just give the name (case insensitive) and you will get quotes in english.
+// Just give the name (case insensitive) 
+// and you will get quotes in english.
 console.log(quoteScraper('Agatha Christie')); 
 
-//You can also get quotes in brazilian portuguese
+// You can also get quotes in brazilian portuguese
 console.log(quoteScraper('mark twain', 'pt_br')); 
 
-//Using pt_br you can give a number of page to get more quotes. 
-//Do not worry about a big number. 
-//The library will handle it automatically.
+// Using pt_br you can give a number of page to get more quotes. 
+// Do not worry about a big number. 
+// The library will handle it automatically.
 console.log(quoteScraper('mark twain', 'pt_br', 5)); 
 
-//or you can use 'max' to get the maximum number of quotes.
+// You can use 'max' to get the maximum number of quotes.
 console.log(quoteScraper('mark twain', 'pt_br', 'max')); 
 
 ```
