@@ -15,8 +15,26 @@ module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {
 	if(source === 'brainyquote'){
 		readEnglishQuotes(name);
 	}else if(source === 'pensador'){
-		
-		scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name)
+		readBrazilianPortugueseQuotes(name, numberOfPages);
+	}
+	
+	wait.for.value(isComplete, 'isReadComplete' ,true);
+	isComplete.isReadComplete = false;
+	return sentences;
+}
+
+function readEnglishQuotes(name){
+	scraperjs.StaticScraper.create(URL_SITE_ENGLISH_QUOTE+name)
+		.scrape(function($) {
+			return $(".b-qt").map(function() {
+				 sentences.push($(this).text());
+				 isComplete.isReadComplete = true;
+			}).get();
+		})
+}
+
+function readBrazilianPortugueseQuotes(name, numberOfPages){
+	scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name)
 			.scrape(($) => {
 				$(".autorTotal strong, .total").map(function() {				
 					var text = $(this).text();
@@ -47,19 +65,4 @@ module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {
 					}	
 				});
 			});
-	}
-	
-	wait.for.value(isComplete, 'isReadComplete' ,true);
-	isComplete.isReadComplete = false;
-	return sentences;
-}
-
-function readEnglishQuotes(name){
-	scraperjs.StaticScraper.create(URL_SITE_ENGLISH_QUOTE+name)
-		.scrape(function($) {
-			return $(".b-qt").map(function() {
-				 sentences.push($(this).text());
-				 isComplete.isReadComplete = true;
-			}).get();
-		})
 }
