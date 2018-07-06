@@ -6,9 +6,10 @@ const URL_SITE_QUOTE_PT_BR = 'https://www.pensador.com/';
 const URL_SITE_ENGLISH_QUOTE = 'https://www.brainyquote.com/authors/'
 
 var isComplete = {'isReadComplete' : false};
+var sentences = [];
 
 module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {	
-	var sentences = [];
+	sentences = [];
 	name = name.toLowerCase().replace(' ', '_');
 	
 	if(source === 'brainyquote'){
@@ -49,7 +50,7 @@ module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {
 	}
 	
 	wait.for.value(isComplete, 'isReadComplete' ,true);
-	isComplete.isReadComplete - false;
+	isComplete.isReadComplete = false;
 	return sentences;
 }
 
