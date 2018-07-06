@@ -5,20 +5,14 @@ const wait = require('wait-for-stuff');
 const URL_SITE_QUOTE_PT_BR = 'https://www.pensador.com/';
 const URL_SITE_ENGLISH_QUOTE = 'https://www.brainyquote.com/authors/'
 
+var isComplete = {'isReadComplete' : false};
+
 module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {	
 	var sentences = [];
-	var isComplete = {'isReadComplete' : false};
 	name = name.toLowerCase().replace(' ', '_');
 	
 	if(source === 'brainyquote'){
-		scraperjs.StaticScraper.create(URL_SITE_ENGLISH_QUOTE+name)
-		.scrape(function($) {
-			return $(".b-qt").map(function() {
-				 sentences.push($(this).text());
-				 isComplete.isReadComplete = true;
-			}).get();
-		})
-		
+		readEnglishQuotes(name);
 	}else if(source === 'pensador'){
 		
 		scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name)
@@ -55,5 +49,16 @@ module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {
 	}
 	
 	wait.for.value(isComplete, 'isReadComplete' ,true);
+	isComplete.isReadComplete - false;
 	return sentences;
+}
+
+function readEnglishQuotes(name){
+	scraperjs.StaticScraper.create(URL_SITE_ENGLISH_QUOTE+name)
+		.scrape(function($) {
+			return $(".b-qt").map(function() {
+				 sentences.push($(this).text());
+				 isComplete.isReadComplete = true;
+			}).get();
+		})
 }
