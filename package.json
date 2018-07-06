@@ -1,6 +1,6 @@
 {
   "name": "quote-scraper",
-  "version": "1.5.0",
+  "version": "1.6.1",
   "description": "A npm package to get famous quotes in english and brazilian portuguese.",
   "main": "index.js",
   "scripts": {
