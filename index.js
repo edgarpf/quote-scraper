@@ -8,13 +8,13 @@ const URL_SITE_ENGLISH_QUOTE = 'https://www.brainyquote.com/authors/'
 var isComplete = {'isReadComplete' : false};
 var sentences = [];
 
-module.exports = (name, source = 'brainyquote', numberOfPages = 1) => {	
+module.exports = (name, language = 'en', numberOfPages = 1) => {	
 	sentences = [];
 	name = name.toLowerCase().replace(' ', '_');
 	
-	if(source === 'brainyquote'){
+	if(language === 'en'){
 		readEnglishQuotes(name);
-	}else if(source === 'pensador'){
+	}else if(language === 'pt'){
 		readBrazilianPortugueseQuotes(name, numberOfPages);
 	}
 	
