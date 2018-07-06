@@ -14,7 +14,7 @@ module.exports = (name, language = 'en', numberOfPages = 1) => {
 	
 	if(language === 'en'){
 		readEnglishQuotes(name);
-	}else if(language === 'pt'){
+	}else if(language === 'pt_br'){
 		readBrazilianPortugueseQuotes(name, numberOfPages);
 	}
 	
@@ -43,8 +43,8 @@ function readBrazilianPortugueseQuotes(name, numberOfPages){
 									
 					var numberOfQuotes = parseInt(extractValues(text, condition).quantity); 				
 					var numberMaxOfPages = parseInt(numberOfQuotes/numberOfSentencesPerPage);	
-										
-					if(numberOfPages > numberMaxOfPages){
+
+					if(numberOfPages > numberMaxOfPages || numberOfPages === 'max'){
 						numberOfPages = numberMaxOfPages;
 					}
 					
