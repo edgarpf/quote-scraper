@@ -3,7 +3,7 @@ const scraperjs = require('scraperjs');
 const wait = require('wait-for-stuff');
 
 const URL_SITE_QUOTE_PT_BR = 'https://www.pensador.com/';
-const URL_SITE_ENGLISH_QUOTE = 'https://www.brainyquote.com/authors/'
+var URL_SITE_QUOTE;
 
 var isComplete = {
     'isReadComplete': false
@@ -12,10 +12,21 @@ var sentences = [];
 
 module.exports = (name, language = 'en', numberOfPages = 1) => {
     sentences = [];
-    name = name.toLowerCase().replace(' ', '_');
 
-    if (language === 'en') {
-        readEnglishQuotes(name);
+	if(language === 'en'){
+		URL_SITE_QUOTE = 'https://www.brainyquote.com/authors/';
+	} else if(language === 'es'){
+		URL_SITE_QUOTE = 'https://www.brainyquote.com/es/autores/';
+		name = name.trim().toLowerCase().replace(' ', '-');
+	} else if(language === 'fr'){
+		URL_SITE_QUOTE = 'https://www.brainyquote.com/fr/auteurs/';
+		name = name.trim().toLowerCase().replace(' ', '-');
+	} else{
+		name = name.trim().toLowerCase().replace(' ', '_');
+	}
+	
+    if (language === 'en' || language == 'fr' || language === 'es') {
+        readQuotes(name);
     } else if (language === 'pt_br') {
         readBrazilianPortugueseQuotes(name, numberOfPages);
     } else {
@@ -27,10 +38,10 @@ module.exports = (name, language = 'en', numberOfPages = 1) => {
     return sentences;
 }
 
-function readEnglishQuotes(name) {
-    scraperjs.StaticScraper.create(URL_SITE_ENGLISH_QUOTE + name)
+function readQuotes(name) {
+    scraperjs.StaticScraper.create(URL_SITE_QUOTE + name)
         .scrape(function($) {
-            $(".thought-bubble").map(function() {
+            $(".thought-bubble, .row .bq_s").map(function() {
                 isComplete.isReadComplete = true;
             });
 

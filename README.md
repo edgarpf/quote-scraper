@@ -15,7 +15,13 @@ var quoteScraper = require('quote-scraper');
 // and you will get quotes in english.
 console.log(quoteScraper('Agatha Christie')); 
 
-// You can also get quotes in brazilian portuguese
+// You can also get quotes in spanish.
+console.log(quoteScraper('mark twain', 'es')); 
+
+// In french.
+console.log(quoteScraper('mark twain', 'fr')); 
+
+// And brazilian portuguese.
 console.log(quoteScraper('mark twain', 'pt_br')); 
 
 // Using pt_br you can give a number of page to get more quotes. 
