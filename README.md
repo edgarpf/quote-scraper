@@ -1,5 +1,5 @@
 # quote-scraper [![Build Status](https://travis-ci.org/edgarpf/quote-scraper.svg?branch=master)](https://travis-ci.org/edgarpf/quote-scraper) [![codecov](https://codecov.io/gh/edgarpf/quote-scraper/branch/master/graph/badge.svg)](https://codecov.io/gh/edgarpf/quote-scraper) [![Maintainability](https://api.codeclimate.com/v1/badges/bae84ef93f2e4f7eeb11/maintainability)](https://codeclimate.com/github/edgarpf/quote-scraper/maintainability)
-A npm package to get famous quotes in english and brazilian portuguese.  
+A npm package to get famous quotes in english, spanish, french and brazilian portuguese. 
 
 ## Installation
 ```js
