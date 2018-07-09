@@ -15,6 +15,7 @@ module.exports = (name, language = 'en', numberOfPages = 1) => {
 
 	if(language === 'en'){
 		URL_SITE_QUOTE = 'https://www.brainyquote.com/authors/';
+		name = name.trim().toLowerCase().replace(' ', '_');
 	} else if(language === 'es'){
 		URL_SITE_QUOTE = 'https://www.brainyquote.com/es/autores/';
 		name = name.trim().toLowerCase().replace(' ', '-');
@@ -78,8 +79,11 @@ function readBrazilianPortugueseQuotes(name, numberOfPages) {
                     sentences.push($(this).text());
                 });
 
-                isComplete.isReadComplete = numberOfPages === 1;
-				readOtherPages(name, numberOfPages, numberOfSentencesPerPage);                
+                isComplete.isReadComplete = numberOfPages <= 1;
+				
+				if(!isComplete.isReadComplete){					
+					readOtherPages(name, numberOfPages, numberOfSentencesPerPage); 
+				}				
             });
         });
 }
