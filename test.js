@@ -27,3 +27,5 @@ console.log('test for page not found for es');
 quoteScraper('georgfdbfgbfgbfgbg', 'es');
 console.log('test for page not found for fr');
 quoteScraper('georgfdbfgbfgbfgbg', 'fr');
+quoteScraper('Honoré Daumier');
+console.log('test with name with accents done');

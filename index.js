@@ -1,6 +1,7 @@
 const extractValues = require("extract-values");
 const scraperjs = require('scraperjs');
 const wait = require('wait-for-stuff');
+const accents = require('remove-accents');
 
 const URL_SITE_QUOTE_PT_BR = 'https://www.pensador.com/';
 var URL_SITE_QUOTE;
@@ -13,17 +14,19 @@ var sentences = [];
 module.exports = (name, language = 'en', numberOfPages = 1) => {
     sentences = [];
 
+	name = accents.remove(name.trim().toLowerCase());
+	
 	if(language === 'en'){
 		URL_SITE_QUOTE = 'https://www.brainyquote.com/authors/';
-		name = name.trim().toLowerCase().replace(' ', '_');
+		name = name.replace(' ', '_');
 	} else if(language === 'es'){
 		URL_SITE_QUOTE = 'https://www.brainyquote.com/es/autores/';
-		name = name.trim().toLowerCase().replace(' ', '-');
+		name = name.replace(' ', '-');
 	} else if(language === 'fr'){
 		URL_SITE_QUOTE = 'https://www.brainyquote.com/fr/auteurs/';
-		name = name.trim().toLowerCase().replace(' ', '-');
+		name = name.replace(' ', '-');
 	} else{
-		name = name.trim().toLowerCase().replace(' ', '_');
+		name = name.replace(' ', '_');
 	}
 	
     if (language === 'en' || language == 'fr' || language === 'es') {
