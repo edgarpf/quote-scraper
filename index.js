@@ -1,7 +1,7 @@
 const extractValues = require("extract-values");
 const scraperjs = require('scraperjs');
 const wait = require('wait-for-stuff');
-const accents = require('remove-accents');
+const encodeUrl = require("encodeurl");
 
 const URL_SITE_QUOTE_PT_BR = 'https://www.pensador.com/';
 var URL_SITE_QUOTE;
@@ -13,8 +13,7 @@ var sentences = [];
 
 module.exports = (name, language = 'en', numberOfPages = 1) => {
     sentences = [];
-
-	name = accents.remove(name.trim().toLowerCase());
+	name = name.trim().toLowerCase();
 	
 	if(language === 'en'){
 		URL_SITE_QUOTE = 'https://www.brainyquote.com/authors/';
@@ -43,7 +42,7 @@ module.exports = (name, language = 'en', numberOfPages = 1) => {
 }
 
 function readQuotes(name) {
-    scraperjs.StaticScraper.create(URL_SITE_QUOTE + name)
+    scraperjs.StaticScraper.create(encodeUrl(URL_SITE_QUOTE + name))
         .scrape(function($) {
             $(".thought-bubble, .row .bq_s").map(function() {
                 isComplete.isReadComplete = true;
@@ -57,7 +56,7 @@ function readQuotes(name) {
 }
 
 function readBrazilianPortugueseQuotes(name, numberOfPages) {
-    scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name)
+    scraperjs.StaticScraper.create(encodeUrl(URL_SITE_QUOTE_PT_BR + name))
         .scrape(($) => {
 
             checkFor404($);
@@ -93,7 +92,7 @@ function readBrazilianPortugueseQuotes(name, numberOfPages) {
 
 function readOtherPages(name, numberOfPages, numberOfSentencesPerPage){
 	for (var i = 2; i <= numberOfPages; i++) {
-		scraperjs.StaticScraper.create(URL_SITE_QUOTE_PT_BR + name + '/' + i)
+		scraperjs.StaticScraper.create(encodeUrl(URL_SITE_QUOTE_PT_BR + name + '/' + i))
 			.scrape(function($) {
 				$(".frase").map(function() {
 					sentences.push($(this).text());
